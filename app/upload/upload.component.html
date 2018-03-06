@@ -1,0 +1,38 @@
+<div class="panel panel-primary">
+    <div class="panel-heading">
+        {{pageTitle}}
+    </div>
+        <div class='panel-body'>
+            <div>Enter Session ID:
+                <input type='text' [(ngModel)]='sessionId' placeholder='enter Session ID'/>
+            </div>
+            
+            <div>
+                <div>Front Image:</div>
+                <input type="file" accept="image/*" (change)="frontImageChangeEvent($event)" placeholder="select front image..." />
+                 <p><img id="frontImage"></p>
+            </div>
+            
+            <div>
+                <div>Back Image:</div>
+                <input type="file" accept="image/*" (change)="backImageChangeEvent($event)" placeholder="select back image..." />
+                <p><img id="backImage"></p>
+            </div>
+            <div>
+                <button class="btn btn-primary" (click)='sendImages()' [ngClass]="{disabled : !submitEnabled}">
+                    Submit
+                </button>
+                <button class="btn btn-primary" (click)='clearScreen()'>
+                    Clear
+                </button>
+
+            </div>
+            <section *ngIf="isRequesting">
+                <my-spinner [isRunning]="isRequesting"></my-spinner>
+            </section>  
+            <section class="row" *ngIf="errorMessage">
+                {{errorMessage}}
+            </section> 
+    </div>
+    <footer>&copy; Dragnet Solutions, Inc.</footer>    
+</div>

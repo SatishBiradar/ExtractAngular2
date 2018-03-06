@@ -1,0 +1,44 @@
+<div class='panel panel-primary'>
+    <div class="panel-heading">
+        {{pageTitle}}
+    </div>
+    <div class='panel-body'>
+        <div>
+            <input type='text' [(ngModel)]='mobileNumber' placeholder='enter mobile phone'/>
+            <button class="btn btn-primary" (click)='sendSms()' [ngClass]="{disabled : !mobileNumber}">
+                Send SMS
+            </button>
+        </div>    
+        <input type='text' [(ngModel)]='sessionId' placeholder='enter Session ID'/>
+        <button class="btn btn-primary" (click)='getImages()' [ngClass]="{disabled : !sessionId}">
+            Submit
+        </button>
+        <button class="btn btn-primary" (click)='clearScreen()'>
+            Clear
+        </button>
+    </div>
+    <section class="row" *ngIf="errorMessage">
+        Errors:{{errorMessage}}
+    </section>    
+    <section *ngIf="transactionId">
+        Response Id:{{transactionId}}
+    </section>    
+    <section *ngIf="isRequesting">
+        <my-spinner [isRunning]="isRequesting"></my-spinner>
+    </section> 
+    <div class='table-responsive' *ngIf="downloadCount">
+        <table class='table' *ngIf="downloads.Files && downloads.Files.length">
+            <thead>
+                <tr>
+                    <th>Image Name</th>
+                    <th>Image</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor='let d of downloads.Files'>
+                    <td>{{d.Name}}</td>
+                    <img [src]="'data:image/jpg;base64,'+d.Data"/>
+            </tbody>
+        </table>
+    </div>
+</div>

@@ -1,0 +1,128 @@
+<div class="panel panel-primary">
+    <div class="panel-heading">
+        {{pageTitle}}
+    </div>
+        <div class='panel-body'>
+            <div class="form-group">
+                <div>Select URL:</div>
+                <select class="form-group" [(ngModel)]="selectedUrl">
+                    <option *ngFor="let url of mobileInterceptUrls">{{url}}</option>
+                </select>
+            </div>   
+            <div class="form-group">
+                <label for="username">Username</label>
+                <input type="text" class="form-control" [(ngModel)]='username' placeholder='User name'/>
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" class="form-control" [(ngModel)]='password' placeholder='Password' />
+            </div>
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div>Front Image:</div>
+                        <input #mFrontImage type="file" accept="image/*" (change)="frontImageChangeEvent($event)" placeholder="select Front image..." />
+                        <label>Crop Image :
+                            <input type="checkbox" ng-model="cropImage" [(ngModel)]="cropImage">
+                        </label>                
+                        <p><img id="frontImage"></p>
+                    </div>
+                    <div class="col-md-6">
+                    <div>Back Image:</div>
+                        <input #mBackImage type="file" accept="image/*" (change)="backImageChangeEvent($event)" placeholder="select back image..." />
+                        <p><img id="backImage"></p>                        
+                    </div>
+                </div>
+
+            </div>            
+            <div class="form-group">
+                <button class="btn btn-primary" (click)='sendImages()' [ngClass]="{disabled : !submitEnabled}">
+                    Authenticate
+                </button>
+                <button class="btn btn-primary" (click)='clearScreen()'>
+                    Clear
+                </button>
+            </div>
+            <div class="container-fluid" *ngIf="responseSuccess">
+                <div class="panel panel-success">
+                    <div class="panel-heading">
+                        {{transactionId}}
+                    </div>
+                    <div class="panel-body">
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="demo-content col-md-4">
+                                    <div>
+                                        <h4 class="text-success">{{msgDocAuthenticated}}</h4>
+                                        <div  *ngIf="docAuthErrors.length">
+                                            <h6 class="text-danger">Errors:</h6>
+                                            <ul>
+                                                <li *ngFor="let error of docAuthErrors">
+                                                    {{ error }}
+                                                </li>
+                                            </ul>
+                                        </div>
+                                        <div *ngIf="docAuthWarnings.length">
+                                            <h6 class="text-warning">Warnings:</h6>
+                                            <ul>
+                                                <li *ngFor="let warning of docAuthWarnings">
+                                                    {{ warning }}
+                                                </li>
+                                            </ul>                                                                                    
+                                        </div>
+
+                                        <p>
+                                            Face Image:
+                                            <img class="img-responsive" [src]="'data:image/jpg;base64,'+FacePicture"/>
+                                        </p>
+                                        <p>
+                                            Reformatted Image:
+                                            <img class="img-responsive" [src]="'data:image/jpg;base64,'+ReformattedPicture"/>
+                                        </p>
+                                        <p>
+                                            Signiture Image:
+                                            <img class="img-responsive" [src]="'data:image/jpg;base64,'+ SignPicture"/>
+                                        </p>                                                                                                                                                
+                                    </div>                                      
+                                </div>
+                                <div class="demo-content col-md-4">
+                                    <table class="table table-striped table-bordered" *ngIf="responseSuccess">
+                                        <thead>
+                                            <th>OCR Field Name</th>
+                                            <th>OCR Field Data</th>
+                                        </thead>                                        
+                                        <tbody>
+                                            <tr *ngFor='let key of ocrKeys()'>
+                                                <td>{{key}}</td>
+                                                <td>{{arrayOcrData[key]}}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>                                    
+                                </div>
+                                <div class="demo-content col-md-4">
+                                    <table class="table table-striped table-bordered" *ngIf="responseSuccess">
+                                        <thead>
+                                            <th>Barcode Field Name</th>
+                                            <th>Barcode Field Data</th>                                                    
+                                        </thead>                                        
+                                        <tbody>
+                                            <tr *ngFor='let key of barcodeKeys()'>
+                                                <td>{{key}}</td>
+                                                <td>{{arrayBarcodeData[key]}}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>                                        
+                                </div>
+                            </div>
+                        </div>    
+                    </div>
+                </div>
+            </div>
+            <section *ngIf="isRequesting">
+                <my-spinner [isRunning]="isRequesting"></my-spinner>
+            </section>  
+            <section class="row" *ngIf="errorMessage">
+                {{errorMessage}}
+            </section> 
+    </div>
+</div>

@@ -1,0 +1,53 @@
+<div class="panel panel-primary">
+    <div class="panel-heading">
+        {{pageTitle}}
+    </div>
+        <div class='panel-body'>
+            <div class="form-group">
+                <div>Select URL:</div>
+                <select class="form-group" [(ngModel)]="selectedUrl">
+                    <option *ngFor="let url of mobileInterceptUrls">{{url}}</option>
+                </select>
+            </div>   
+            <div class="form-group">
+                <label for="username">Username</label>
+                <input type="text" class="form-control" [(ngModel)]='username' placeholder='User name'/>
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" class="form-control" [(ngModel)]='password' placeholder='Password' />
+            </div>
+            <div class="form-group">
+                <div>Back Image:</div>
+                <input #mBackImage type="file" accept="image/*" (change)="backImageChangeEvent($event)" placeholder="select back image..." />
+                <p><img id="backImage"></p>
+            </div>
+            <div class="form-group">
+                <button class="btn btn-primary" (click)='sendImages()' [ngClass]="{disabled : !submitEnabled}">
+                    Extract Barcode Data
+                </button>
+                <button class="btn btn-primary" (click)='clearScreen()'>
+                    Clear
+                </button>
+            </div>
+            <div class="panel panel-success">
+                <div className="panel-heading" *ngIf="responseSuccess">
+                   <h2>Barcode Data</h2>
+                </div>                
+                <table class="table" *ngIf="responseSuccess">
+                    <tbody>
+                        <tr *ngFor='let key of keys()'>
+                            <td>{{key}}</td>
+                            <td>{{arrayBarcodeData[key]}}</td>
+                        </tr>
+                    </tbody>
+                </table>            
+            </div>
+            <section *ngIf="isRequesting">
+                <my-spinner [isRunning]="isRequesting"></my-spinner>
+            </section>  
+            <section class="row" *ngIf="errorMessage">
+                {{errorMessage}}
+            </section> 
+    </div>
+</div>

@@ -1,0 +1,27 @@
+<div class='panel panel-primary'>
+    <div class="panel-heading">
+        {{pageTitle}}
+    </div>
+    <div class='panel-body'>
+        <input type='text' [(ngModel)]='sessionId' placeholder='enter Session ID'/>
+        <button class="btn btn-primary" (click)='deleteSession()' [ngClass]="{disabled : !sessionId}">
+            Delete
+        </button>
+        <button class="btn btn-primary" (click)='clearScreen()'>
+            Clear
+        </button>
+        <div *ngIf="opMessage">
+            <h3>{{opMessage}}</h3>
+        </div>   
+    </div>
+    <section *ngIf="isRequesting">
+        <my-spinner [isRunning]="isRequesting"></my-spinner>
+    </section>     
+    <section class="row" *ngIf="errorMessage">
+        Errors:{{errorMessage}}
+    </section>    
+    <div class="row" *ngIf="transactionId">
+        <h3>Response Id:{{transactionId}}</h3>
+    </div>
+    <footer>&copy; Dragnet Solutions, Inc.</footer>    
+</div>
